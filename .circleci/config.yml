@@ -31,9 +31,9 @@ jobs:
     <<: *dotnet_image
     steps:
     - *attach_workspace
-    - run:
-        name: build & test
-        command: make build-test
+    - run: apt-get update
+    - run: apt-get --no-install-recommends install -y make
+    - run: make build-test
 
   publish-to-bintray:
     <<: *dotnet_image
