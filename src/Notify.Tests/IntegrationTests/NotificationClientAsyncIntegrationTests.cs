@@ -38,7 +38,7 @@ namespace Notify.Tests.IntegrationTests
 		const String TEST_SMS_BODY = "Hello someone\n\nFunctional Tests make our world a better place";
 
 		const String TEST_TEMPLATE_EMAIL_BODY = "Hello ((name))\r\n\r\nFunctional test help make our world a better place";
-		const String TEST_EMAIL_BODY = "Hello someone\r\n\r\nFunctional test help make our world a better place";
+		const String TEST_EMAIL_BODY = "Hello someone\n\nFunctional test help make our world a better place\n";
 		const String TEST_EMAIL_SUBJECT = "Functional Tests are good";
 
 		const String TEST_LETTER_BODY = "Hello Foo";
@@ -122,7 +122,7 @@ namespace Notify.Tests.IntegrationTests
 			NotifyAssertions.AssertNotification(notification);
 		}
 
-		[Test, Category("Integration/NotificationClientAsync")]
+		[Test, Category("Integration/NotificationClientAsync"), Ignore("No postage support")]
 		public async Task SendLetterTestWithPersonalisation()
 		{
 			Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
@@ -144,7 +144,7 @@ namespace Notify.Tests.IntegrationTests
 
 		}
 
-		[Test, Category("Integration/NotificationClientAsync")]
+		[Test, Category("Integration/NotificationClientAsync"), Ignore("No postage support")]
 		public async Task GetLetterNotificationWithIdReturnsNotification()
 		{
 			await SendLetterTestWithPersonalisation();
@@ -163,7 +163,7 @@ namespace Notify.Tests.IntegrationTests
 			NotifyAssertions.AssertNotification(notification);
 		}
 
-		[Test, Category("Integration/NotificationClientAsync")]
+		[Test, Category("Integration/NotificationClientAsync"), Ignore("No postage support")]
 		public async Task SendPrecompiledLetterTest()
 		{
 
@@ -197,7 +197,7 @@ namespace Notify.Tests.IntegrationTests
 			NotifyAssertions.AssertNotification(notification);
 		}
 
-		[Test, Category("Integration/NotificationClientAsync")]
+		[Test, Category("Integration/NotificationClientAsync"), Ignore("No support for documents")]
 		public async Task SendEmailWithDocumentPersonalisationTest()
 		{
 			byte[] pdfContents;
@@ -242,7 +242,7 @@ namespace Notify.Tests.IntegrationTests
 			}
 		}
 
-		[Test, Category("Integration/NotificationClientAsync")]
+		[Test, Category("Integration/NotificationClientAsync"), Ignore("No inbound SMS support")]
 		public async Task GetReceivedTexts()
 		{
 			NotificationClient client_inbound = new NotificationClient(NOTIFY_API_URL, INBOUND_SMS_QUERY_KEY);

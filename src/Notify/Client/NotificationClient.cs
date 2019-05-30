@@ -131,12 +131,12 @@ namespace Notify.Client
             return receivedTexts;
         }
 
-        public async Task<SmsNotificationResponse> SendSmsAsync(string mobileNumber, string templateId,
+        public async Task<SmsNotificationResponse> SendSmsAsync(string phoneNumber, string templateId,
             Dictionary<string, dynamic> personalisation = null, string clientReference = null,
             string smsSenderId = null)
         {
             var o = CreateRequestParams(templateId, personalisation, clientReference);
-            o.AddFirst(new JProperty("phone_number", mobileNumber));
+            o.AddFirst(new JProperty("phone_number", phoneNumber));
 
             if (smsSenderId != null)
             {
@@ -382,11 +382,11 @@ namespace Notify.Client
             }
         }
 
-        public SmsNotificationResponse SendSms(string mobileNumber, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string smsSenderId = null)
+        public SmsNotificationResponse SendSms(string phoneNumber, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string smsSenderId = null)
         {
             try
             {
-                return SendSmsAsync(mobileNumber, templateId, personalisation, clientReference, smsSenderId).Result;
+                return SendSmsAsync(phoneNumber, templateId, personalisation, clientReference, smsSenderId).Result;
             }
             catch (AggregateException ex)
             {
