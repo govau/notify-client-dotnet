@@ -24,7 +24,6 @@ jobs:
         root: .
         paths:
         - .
-        - gradle
         - src
 
   test-and-build:
@@ -39,9 +38,9 @@ jobs:
     <<: *dotnet_image
     steps:
     - *attach_workspace
-    - run:
-        name: publish to bintray
-        command: make publish
+    - run: apt-get update
+    - run: apt-get --no-install-recommends install -y make
+    - run: make publish
 
 workflows:
   version: 2

@@ -1,3 +1,11 @@
+NUGET  ?= nuget
+DOTNET ?= dotnet
+
+PACKAGES   = $(wildcard src/Notify/publish/*.nupkg)
+VERSIONS   = $(PACKAGES:src/Notify/publish/%.nupkg=%)
+NUGET_URL ?= https://api.bintray.com/nuget/notify-infra/nuget
+NUGET_KEY ?= # username:api_key
+
 .DEFAULT_GOAL := help
 
 .PHONY: help
@@ -10,52 +18,61 @@ build: ## Build project
 
 .PHONY: test
 test: ## Run unit, authentication, integration tests
-	make unit-test
-	make authentication-test
-	make integration-test
+	$(MAKE) unit-test
+	$(MAKE) authentication-test
+	$(MAKE) integration-test
 
 .PHONY: authentication-test
 authentication-test: ## Run authentication tests
-	dotnet test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/AuthenticationTests
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/AuthenticationTests
 
 .PHONY: integration-test
 integration-test: ## Run integration tests
-	dotnet test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Integration
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Integration
 	# dotnet test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Integration/NotificationClient
 
 .PHONY: unit-test
 unit-test: ## Run unit tests
-	dotnet test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/NotificationClient
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/NotificationClient
 
 .PHONY: single-test
 single-test: ## Run a single test: make single-test test=[test name]
-	dotnet test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter $(test)
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter $(test)
 
 .PHONY: build-single-test
 build-single-test: ## Run a single test: make single-test test=[test name]
-	dotnet test ./src/Notify.Tests/Notify.Tests.csproj -f=netcoreapp2.0 --filter $(test)
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj -f=netcoreapp2.0 --filter $(test)
 
 .PHONY: build-test
 build-test: ## Build and test
-	make build
-	make unit-test
-	make authentication-test
-	make integration-test
+	$(MAKE) build
+	$(MAKE) unit-test
+	$(MAKE) authentication-test
+	$(MAKE) integration-test
 
 .PHONY: build-integration-test
 build-integration-test: ## Build and integration test
-	make build
-	make integration-test
+	$(MAKE) build
+	$(MAKE) integration-test
 
 .PHONY: build-unit-test
 build-unit-test: ## Build and integration test
-	make build
-	make unit-test
+	$(MAKE) build
+	$(MAKE) unit-test
 
 .PHONY: build-release
 build-release: ## Build release version
-	dotnet build -c=Release -f=netcoreapp2.0
+	$(DOTNET) build -c=Release -f=netcoreapp2.0
 
 .PHONY: build-package
 build-package: build-release ## Build and package NuGet
-	dotnet pack -c=Release ./src/Notify/Notify.csproj /p:TargetFrameworks=netcoreapp2.0 -o=publish
+	$(DOTNET) pack -c=Release ./src/Notify/Notify.csproj /p:TargetFrameworks=netcoreapp2.0 -o=publish
+
+publish: $(VERSIONS:%=publish-%)
+
+publish-%:
+	@$(NUGET) push src/Notify/publish/$*.nupkg -Source $(NUGET_URL) -ApiKey $(NUGET_KEY)
+
+clean:
+	-rm -r src/Notify/bin
+	-rm -r src/Notify/publish

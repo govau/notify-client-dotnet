@@ -24,7 +24,7 @@ namespace Notify.Client
         private readonly string serviceId;
         private readonly string apiKey;
 
-        public BaseClient(IHttpClient client, string apiKey, string baseUrl = "https://api.notifications.service.gov.uk/")
+        public BaseClient(IHttpClient client, string apiKey, string baseUrl = "https://rest-api.notify.gov.au/")
         {
             var serviceCredentials = ExtractServiceIdAndApiKey(apiKey);
             serviceId = serviceCredentials.Item1;
