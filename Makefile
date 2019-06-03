@@ -76,3 +76,4 @@ publish-%:
 clean:
 	-rm -r src/Notify/bin
 	-rm -r src/Notify/publish
+	-rm -r src/Notify/obj

@@ -4,7 +4,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <TargetFrameworks>netstandard2.0;netcoreapp2.0;net462</TargetFrameworks>
     <Version>2.5.1</Version>
-    <Authors>Notify.gov.au, notify-infra, GOV.UK Notify, govuk-notify</Authors>
+    <Authors>Notify.gov.au, GOV.UK Notify</Authors>
     <Owners>Notify.gov.au</Owners>
     <Description>Notify.gov.au .NET client</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
