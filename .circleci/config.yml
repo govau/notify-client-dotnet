@@ -33,6 +33,11 @@ jobs:
     - run: apt-get update
     - run: apt-get --no-install-recommends install -y make
     - run: make build-test
+    - run: make build-package
+    - persist_to_workspace:
+        root: .
+        paths:
+          - src
 
   publish-to-bintray:
     <<: *dotnet_image
@@ -53,10 +58,12 @@ workflows:
         - setup
 
     - approve-publish:
+        <<: *master_branch
         type: approval
         requires:
         - test-and-build
 
     - publish-to-bintray:
+        <<: *master_branch
         requires:
         - approve-publish
