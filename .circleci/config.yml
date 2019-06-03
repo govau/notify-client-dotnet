@@ -58,12 +58,10 @@ workflows:
         - setup
 
     - approve-publish:
-        <<: *master_branch
         type: approval
         requires:
         - test-and-build
 
     - publish-to-bintray:
-        <<: *master_branch
         requires:
         - approve-publish
