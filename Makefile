@@ -68,12 +68,15 @@ build-release: ## Build release version
 build-package: build-release ## Build and package NuGet
 	$(DOTNET) pack -c=Release ./src/Notify/Notify.csproj /p:TargetFrameworks=netcoreapp2.0 -o=publish
 
-publish: $(VERSIONS:%=publish-%)
+.PHONY: publish
+.PHONY: $(VERSIONS:%=publish-%)
+publish: $(VERSIONS:%=publish-%) ## Publish Nuget packages
 
-publish-%:
+$(VERSIONS:%=publish-%): publish-%: ## Publish Nuget package
 	@$(NUGET) push src/Notify/publish/$*.nupkg -Source $(NUGET_URL) -ApiKey $(NUGET_KEY)
 
-clean:
+.PHONY: clean
+clean: ## Remove temporary files
 	-rm -r src/Notify/bin
 	-rm -r src/Notify/publish
 	-rm -r src/Notify/obj
