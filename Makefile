@@ -26,10 +26,9 @@ test: ## Run unit, authentication, integration tests
 authentication-test: ## Run authentication tests
 	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/AuthenticationTests
 
-.PHONY: integration-test
+.PHONY: integration-teet
 integration-test: ## Run integration tests
-	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Integration
-	# dotnet test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Integration/NotificationClient
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory~Integration
 
 .PHONY: unit-test
 unit-test: ## Run unit tests
