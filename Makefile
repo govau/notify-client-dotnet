@@ -33,6 +33,7 @@ integration-test: ## Run integration tests
 .PHONY: unit-test
 unit-test: ## Run unit tests
 	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/NotificationClient
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/NotifyClient
 
 .PHONY: single-test
 single-test: ## Run a single test: make single-test test=[test name]
