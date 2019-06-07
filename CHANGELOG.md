@@ -1,3 +1,9 @@
+## [2.5.1] - 2019-06-07
+
+* Fork client from Gov UK and configure for govau
+* Skip tests for code that is no longer supported
+* Rename mobileNumber argument to phoneNumber
+
 ## [2.5.0] - 2018-02-14
 
 * Update JWT version to the latest
