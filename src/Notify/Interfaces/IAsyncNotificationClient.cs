@@ -21,7 +21,7 @@ namespace Notify.Interfaces
 
         Task<TemplateResponse> GetTemplateByIdAndVersionAsync(string templateId, int version = 0);
 
-        Task<SmsNotificationResponse> SendSmsAsync(string mobileNumber, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string smsSenderId = null);
+        Task<SmsNotificationResponse> SendSmsAsync(string phoneNumber, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string smsSenderId = null);
 
         Task<EmailNotificationResponse> SendEmailAsync(string emailAddress, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string emailReplyToId = null);
 

@@ -409,7 +409,7 @@ namespace Notify.Tests.UnitTests
                 return @"{
                             ""content"": {
                                 ""body"": ""test"",
-                                ""from_number"": ""GOV.UK"" },
+                                ""from_number"": ""GOV.AU"" },
                             ""id"": ""d683f7f9-df04-4b9c-8019-15092c4674fd"",
                             ""reference"":  null,
                             ""template"": {
