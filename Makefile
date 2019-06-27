@@ -14,7 +14,7 @@ help:
 
 .PHONY: build
 build: ## Build project
-	dotnet build -f=netcoreapp2.0
+	dotnet build
 
 .PHONY: test
 test: ## Run unit, authentication, integration tests
@@ -24,24 +24,24 @@ test: ## Run unit, authentication, integration tests
 
 .PHONY: authentication-test
 authentication-test: ## Run authentication tests
-	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/AuthenticationTests
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build --filter TestCategory=Unit/AuthenticationTests
 
 .PHONY: integration-teet
 integration-test: ## Run integration tests
-	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory~Integration
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build --filter TestCategory~Integration
 
 .PHONY: unit-test
 unit-test: ## Run unit tests
-	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/NotificationClient
-	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter TestCategory=Unit/NotifyClient
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build --filter TestCategory=Unit/NotificationClient
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build --filter TestCategory=Unit/NotifyClient
 
 .PHONY: single-test
 single-test: ## Run a single test: make single-test test=[test name]
-	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build -f=netcoreapp2.0 --filter $(test)
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --no-build --filter $(test)
 
 .PHONY: build-single-test
 build-single-test: ## Run a single test: make single-test test=[test name]
-	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj -f=netcoreapp2.0 --filter $(test)
+	$(DOTNET) test ./src/Notify.Tests/Notify.Tests.csproj --filter $(test)
 
 .PHONY: build-test
 build-test: ## Build and test
@@ -62,11 +62,11 @@ build-unit-test: ## Build and integration test
 
 .PHONY: build-release
 build-release: ## Build release version
-	$(DOTNET) build -c=Release -f=netcoreapp2.0
+	$(DOTNET) build -c=Release
 
 .PHONY: build-package
 build-package: build-release ## Build and package NuGet
-	$(DOTNET) pack -c=Release ./src/Notify/Notify.csproj /p:TargetFrameworks=netcoreapp2.0 -o=publish
+	$(DOTNET) pack -c=Release ./src/Notify/Notify.csproj -o=publish
 
 .PHONY: publish
 .PHONY: $(VERSIONS:%=publish-%)
