@@ -1,3 +1,7 @@
+## [2.5.2] - 2019-12-04
+
+* Applied fix for issue with synchronous version of NotificationClient API
+
 ## [2.5.1] - 2019-06-07
 
 * Fork client from Gov UK and configure for govau
