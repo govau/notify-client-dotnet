@@ -3,7 +3,7 @@ version: 2
 references:
   dotnet_image: &dotnet_image
     docker:
-    - image: fsharp:netcore
+    - image: fsharp:10.2.1-netcore
 
   attach_workspace: &attach_workspace
     attach_workspace:
