@@ -679,6 +679,51 @@ namespace Notify.Tests.UnitTests
         }
 
         [Test, Category("Unit/NotificationClientAsync")]
+        public async Task SendEmailNotificationWithStatusCallbackUrlGeneratesExpectedRequest()
+        {
+            var personalisation = new Dictionary<string, dynamic>
+            {
+                { "name", "someone" }
+            };
+
+            var expected = new JObject
+            {
+                { "email_address", Constants.fakeEmail },
+                { "template_id", Constants.fakeTemplateId },
+                { "personalisation", JObject.FromObject(personalisation) },
+                { "reference", Constants.fakeNotificationReference },
+                { "status_callback_url", Constants.fakeStatusCallbackUrl},
+                { "status_callback_bearer_token", Constants.fakeStatusCallbackBearerToken}
+            };
+
+            MockRequest(Constants.fakeTemplateEmailListResponseJson,
+                client.SEND_EMAIL_NOTIFICATION_URL,
+                AssertValidRequest,
+                HttpMethod.Post,
+                AssertGetExpectedContent,
+                expected.ToString(Formatting.None));
+
+            var response = await client.SendEmailAsync(Constants.fakeEmail, Constants.fakeTemplateId, personalisation: personalisation, clientReference: Constants.fakeNotificationReference, statusCallbackUrl: Constants.fakeStatusCallbackUrl, statusCallbackBearerToken: Constants.fakeStatusCallbackBearerToken);
+        }
+
+        [Test, Category("Unit/NotificationClientAsync")]
+        public async Task SendEmailNotificationWithStatusCallbackUrlGeneratesExpectedResponse()
+        {
+            var personalisation = new Dictionary<string, dynamic>
+            {
+                { "name", "someone" }
+            };
+
+            var expectedResponse = JsonConvert.DeserializeObject<EmailNotificationResponse>(Constants.fakeEmailNotificationResponseJson);
+
+            MockRequest(Constants.fakeEmailNotificationResponseJson);
+
+            var actualResponse = await client.SendEmailAsync(Constants.fakeEmail, Constants.fakeTemplateId, personalisation, Constants.fakeNotificationReference, Constants.fakeStatusCallbackUrl, Constants.fakeStatusCallbackBearerToken);
+
+            Assert.IsTrue(expectedResponse.Equals(actualResponse));
+        }
+
+        [Test, Category("Unit/NotificationClientAsync")]
         public async Task SendSmsNotificationWithSmsSenderIdGeneratesExpectedRequest()
         {
             var personalisation = new Dictionary<string, dynamic>
@@ -701,6 +746,32 @@ namespace Notify.Tests.UnitTests
 
             var response = await client.SendSmsAsync(
                 Constants.fakePhoneNumber, Constants.fakeTemplateId, personalisation: personalisation, smsSenderId: Constants.fakeSMSSenderId);
+        }
+
+        [Test, Category("Unit/NotificationClientAsync")]
+        public async Task SendSmsNotificationWithStatusCallbackUrlGeneratesExpectedRequest()
+        {
+            var personalisation = new Dictionary<string, dynamic>
+                {
+                    { "name", "someone" }
+                };
+            var expected = new JObject
+            {
+                { "phone_number", Constants.fakePhoneNumber },
+                { "template_id", Constants.fakeTemplateId },
+                { "personalisation", JObject.FromObject(personalisation) },
+                { "status_callback_url", Constants.fakeStatusCallbackUrl },
+                { "status_callback_bearer_token", Constants.fakeStatusCallbackBearerToken}
+            };
+
+            MockRequest(Constants.fakeSmsNotificationWithSMSSenderIdResponseJson,
+                client.SEND_SMS_NOTIFICATION_URL,
+                AssertValidRequest,
+                HttpMethod.Post,
+                AssertGetExpectedContent, expected.ToString(Formatting.None));
+
+            var response = await client.SendSmsAsync(
+                Constants.fakePhoneNumber, Constants.fakeTemplateId, personalisation: personalisation, statusCallbackUrl: Constants.fakeStatusCallbackUrl, statusCallbackBearerToken: Constants.fakeStatusCallbackBearerToken);
         }
     }
 }

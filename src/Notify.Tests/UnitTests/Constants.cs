@@ -17,6 +17,8 @@ namespace Notify.Tests.UnitTests
         public static String fakeTemplateId { get { return "913e9fa6-9cbb-44ad-8f58-38487dccfd82"; } }
         public static String fakeReplyToId { get { return "78ded4ad-e915-4a89-a314-2940ed141d40"; } }
         public static String fakeSMSSenderId { get { return "88ded4ad-e915-4a89-a314-2940ed141d41"; } }
+        public static String fakeStatusCallbackUrl { get { return "https://example.com/callback"; } }
+        public static String fakeStatusCallbackBearerToken { get { return "1234567890"; } }
         public static String fakeNotificationJson { get {
                 return @"{
                             ""completed_at"": null,

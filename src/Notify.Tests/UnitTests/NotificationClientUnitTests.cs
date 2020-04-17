@@ -703,6 +703,51 @@ namespace Notify.Tests.UnitTests
         }
 
         [Test, Category("Unit/NotificationClient")]
+        public void SendEmailNotificationWithStatusCallbackUrlGeneratesExpectedRequest()
+        {
+            var personalisation = new Dictionary<string, dynamic>
+            {
+                { "name", "someone" }
+            };
+
+            var expected = new JObject
+            {
+                { "email_address", Constants.fakeEmail },
+                { "template_id", Constants.fakeTemplateId },
+                { "personalisation", JObject.FromObject(personalisation) },
+                { "reference", Constants.fakeNotificationReference },
+                { "status_callback_url", Constants.fakeStatusCallbackUrl},
+                { "status_callback_bearer_token", Constants.fakeStatusCallbackBearerToken}
+            };
+
+            MockRequest(Constants.fakeTemplateEmailListResponseJson,
+                client.SEND_EMAIL_NOTIFICATION_URL,
+                AssertValidRequest,
+                HttpMethod.Post,
+                AssertGetExpectedContent,
+                expected.ToString(Formatting.None));
+
+            var response = client.SendEmail(Constants.fakeEmail, Constants.fakeTemplateId, personalisation: personalisation, clientReference: Constants.fakeNotificationReference, statusCallbackUrl: Constants.fakeStatusCallbackUrl, statusCallbackBearerToken: Constants.fakeStatusCallbackBearerToken);
+        }
+
+        [Test, Category("Unit/NotificationClient")]
+        public void SendEmailNotificationWithStatusCallbackUrlGeneratesExpectedResponse()
+        {
+            var personalisation = new Dictionary<string, dynamic>
+            {
+                { "name", "someone" }
+            };
+
+            var expectedResponse = JsonConvert.DeserializeObject<EmailNotificationResponse>(Constants.fakeEmailNotificationResponseJson);
+
+            MockRequest(Constants.fakeEmailNotificationResponseJson);
+
+            var actualResponse = client.SendEmail(Constants.fakeEmail, Constants.fakeTemplateId, personalisation, Constants.fakeNotificationReference, Constants.fakeStatusCallbackUrl, Constants.fakeStatusCallbackBearerToken);
+
+            Assert.IsTrue(expectedResponse.Equals(actualResponse));
+        }
+
+        [Test, Category("Unit/NotificationClient")]
         public void SendSmsNotificationWithSmsSenderIdGeneratesExpectedRequest()
         {
             var personalisation = new Dictionary<string, dynamic>
@@ -725,6 +770,32 @@ namespace Notify.Tests.UnitTests
 
             var response = client.SendSms(
                 Constants.fakePhoneNumber, Constants.fakeTemplateId, personalisation: personalisation, smsSenderId: Constants.fakeSMSSenderId);
+        }
+
+        [Test, Category("Unit/NotificationClient")]
+        public void SendSmsNotificationWithStatusCallbackUrlGeneratesExpectedRequest()
+        {
+            var personalisation = new Dictionary<string, dynamic>
+                {
+                    { "name", "someone" }
+                };
+            var expected = new JObject
+            {
+                { "phone_number", Constants.fakePhoneNumber },
+                { "template_id", Constants.fakeTemplateId },
+                { "personalisation", JObject.FromObject(personalisation) },
+                { "status_callback_url", Constants.fakeStatusCallbackUrl },
+                { "status_callback_bearer_token", Constants.fakeStatusCallbackBearerToken}
+            };
+
+            MockRequest(Constants.fakeSmsNotificationWithSMSSenderIdResponseJson,
+                client.SEND_SMS_NOTIFICATION_URL,
+                AssertValidRequest,
+                HttpMethod.Post,
+                AssertGetExpectedContent, expected.ToString(Formatting.None));
+
+            var response = client.SendSms(
+                Constants.fakePhoneNumber, Constants.fakeTemplateId, personalisation: personalisation, statusCallbackUrl: Constants.fakeStatusCallbackUrl, statusCallbackBearerToken: Constants.fakeStatusCallbackBearerToken);
         }
     }
 }

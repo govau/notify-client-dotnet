@@ -133,7 +133,7 @@ namespace Notify.Client
 
         public async Task<SmsNotificationResponse> SendSmsAsync(string phoneNumber, string templateId,
             Dictionary<string, dynamic> personalisation = null, string clientReference = null,
-            string smsSenderId = null)
+            string smsSenderId = null, string statusCallbackUrl = null, string statusCallbackBearerToken = null)
         {
             var o = CreateRequestParams(templateId, personalisation, clientReference);
             o.AddFirst(new JProperty("phone_number", phoneNumber));
@@ -142,6 +142,14 @@ namespace Notify.Client
             {
                 o.Add(new JProperty("sms_sender_id", smsSenderId));
             }
+	    if (statusCallbackUrl != null)
+	    {
+		o.Add(new JProperty("status_callback_url", statusCallbackUrl));
+	    }
+	    if (statusCallbackBearerToken != null)
+	    {
+		o.Add(new JProperty("status_callback_bearer_token", statusCallbackBearerToken));
+	    }
 
             var response = await POST(SEND_SMS_NOTIFICATION_URL, o.ToString(Formatting.None)).ConfigureAwait(false);
 
@@ -150,7 +158,7 @@ namespace Notify.Client
 
         public async Task<EmailNotificationResponse> SendEmailAsync(string emailAddress, string templateId,
             Dictionary<string, dynamic> personalisation = null, string clientReference = null,
-            string emailReplyToId = null)
+            string emailReplyToId = null, string statusCallbackUrl = null, string statusCallbackBearerToken = null)
         {
             var o = CreateRequestParams(templateId, personalisation, clientReference);
             o.AddFirst(new JProperty("email_address", emailAddress));
@@ -159,6 +167,15 @@ namespace Notify.Client
             {
                 o.Add(new JProperty("email_reply_to_id", emailReplyToId));
             }
+            if (statusCallbackUrl != null)
+	    {
+	        o.Add(new JProperty("status_callback_url", statusCallbackUrl));
+	    }
+	    if (statusCallbackBearerToken != null)
+	    {
+		o.Add(new JProperty("status_callback_bearer_token", statusCallbackBearerToken));
+	    }
+
 
             var response = await POST(SEND_EMAIL_NOTIFICATION_URL, o.ToString(Formatting.None)).ConfigureAwait(false);
 
@@ -382,11 +399,11 @@ namespace Notify.Client
             }
         }
 
-        public SmsNotificationResponse SendSms(string phoneNumber, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string smsSenderId = null)
+        public SmsNotificationResponse SendSms(string phoneNumber, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string smsSenderId = null, string statusCallbackUrl = null, string statusCallbackBearerToken = null)
         {
             try
             {
-                return SendSmsAsync(phoneNumber, templateId, personalisation, clientReference, smsSenderId).Result;
+                return SendSmsAsync(phoneNumber, templateId, personalisation, clientReference, smsSenderId, statusCallbackUrl, statusCallbackBearerToken).Result;
             }
             catch (AggregateException ex)
             {
@@ -394,11 +411,11 @@ namespace Notify.Client
             }
         }
 
-        public EmailNotificationResponse SendEmail(string emailAddress, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string emailReplyToId = null)
+        public EmailNotificationResponse SendEmail(string emailAddress, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string emailReplyToId = null, string statusCallbackUrl = null, string statusCallbackBearerToken = null)
         {
             try
             {
-                return SendEmailAsync(emailAddress, templateId, personalisation, clientReference, emailReplyToId).Result;
+                return SendEmailAsync(emailAddress, templateId, personalisation, clientReference, emailReplyToId, statusCallbackUrl, statusCallbackBearerToken).Result;
             }
             catch (AggregateException ex)
             {

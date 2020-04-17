@@ -20,9 +20,9 @@ namespace Notify.Interfaces
 
         TemplateResponse GetTemplateByIdAndVersion(string templateId, int version = 0);
 
-        SmsNotificationResponse SendSms(string phoneNumber, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string smsSenderId = null);
+        SmsNotificationResponse SendSms(string phoneNumber, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string smsSenderId = null, string statusCallbackUrl = null, string statusCallbackBearerToken = null);
 
-        EmailNotificationResponse SendEmail(string emailAddress, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string emailReplyToId = null);
+        EmailNotificationResponse SendEmail(string emailAddress, string templateId, Dictionary<string, dynamic> personalisation = null, string clientReference = null, string emailReplyToId = null, string statusCallbackUrl = null, string statusCallbackBearerToken = null);
 
         LetterNotificationResponse SendLetter(string templateId, Dictionary<string, dynamic> personalisation, string clientReference = null);
 

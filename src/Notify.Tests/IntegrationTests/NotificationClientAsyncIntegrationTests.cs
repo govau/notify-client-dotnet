@@ -29,6 +29,8 @@ namespace Notify.Tests.IntegrationTests
 		private readonly String EMAIL_REPLY_TO_ID = Environment.GetEnvironmentVariable("EMAIL_REPLY_TO_ID");
 		private readonly String SMS_SENDER_ID = Environment.GetEnvironmentVariable("SMS_SENDER_ID");
 		private readonly String INBOUND_SMS_QUERY_KEY = Environment.GetEnvironmentVariable("INBOUND_SMS_QUERY_KEY");
+		private readonly String STATUS_CALLBACK_URL = "https://example.com/callback";
+		private readonly String STATUS_CALLBACK_BEARER_TOKEN = "1234567890";
 
 		private String smsNotificationId;
 		private String emailNotificationId;
@@ -442,6 +444,20 @@ namespace Notify.Tests.IntegrationTests
 		}
 
 		[Test, Category("Integration/NotificationClientAsync")]
+                public async Task SendEmailTestWithStatusCallbackUrlAndBearerToken()
+                {
+			Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
+			{
+				{ "name", "someone" }
+			};
+
+			EmailNotificationResponse response = await this.client.SendEmailAsync(FUNCTIONAL_TEST_EMAIL, EMAIL_TEMPLATE_ID, personalisation: personalisation, statusCallbackUrl: STATUS_CALLBACK_URL, statusCallbackBearerToken: STATUS_CALLBACK_BEARER_TOKEN);
+			this.emailNotificationId = response.id;
+			Assert.IsNotNull(response);
+			Assert.AreEqual(response.content.body, TEST_EMAIL_BODY);
+			Assert.AreEqual(response.content.subject, TEST_EMAIL_SUBJECT);
+		}
+		[Test, Category("Integration/NotificationClientAsync")]
 		public async Task SendEmailTestAllArguments()
 		{
 			Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
@@ -449,7 +465,7 @@ namespace Notify.Tests.IntegrationTests
 				{ "name", "someone" }
 			};
 
-			EmailNotificationResponse response = await this.client.SendEmailAsync(FUNCTIONAL_TEST_EMAIL, EMAIL_TEMPLATE_ID, personalisation, clientReference: "TestReference", emailReplyToId: EMAIL_REPLY_TO_ID);
+			EmailNotificationResponse response = await this.client.SendEmailAsync(FUNCTIONAL_TEST_EMAIL, EMAIL_TEMPLATE_ID, personalisation, clientReference: "TestReference", emailReplyToId: EMAIL_REPLY_TO_ID, statusCallbackUrl: STATUS_CALLBACK_URL, statusCallbackBearerToken: STATUS_CALLBACK_BEARER_TOKEN);
 			this.emailNotificationId = response.id;
 			Assert.IsNotNull(response);
 			Assert.AreEqual(response.content.body, TEST_EMAIL_BODY);
@@ -468,6 +484,25 @@ namespace Notify.Tests.IntegrationTests
 
 			SmsNotificationResponse response =
 				await client_sending.SendSmsAsync(FUNCTIONAL_TEST_NUMBER, SMS_TEMPLATE_ID, personalisation, "sample-test-ref", SMS_SENDER_ID);
+			this.smsNotificationId = response.id;
+			Assert.IsNotNull(response);
+			Assert.AreEqual(response.content.body, TEST_SMS_BODY);
+
+			Assert.IsNotNull(response.reference);
+			Assert.AreEqual(response.reference, "sample-test-ref");
+		}
+		[Test, Category("Integration/NotificationClientAsync")]
+		public async Task SendSmsTestWithStatusCallbackUrlAndBearerToken()
+		{
+			Dictionary<String, dynamic> personalisation = new Dictionary<String, dynamic>
+				{
+					{ "name", "someone" }
+				};
+
+			NotificationClient client_sending = new NotificationClient(NOTIFY_API_URL, API_SENDING_KEY);
+
+			SmsNotificationResponse response =
+			await client_sending.SendSmsAsync(FUNCTIONAL_TEST_NUMBER, SMS_TEMPLATE_ID, personalisation: personalisation, clientReference: "sample-test-ref", statusCallbackUrl: STATUS_CALLBACK_URL, statusCallbackBearerToken: STATUS_CALLBACK_BEARER_TOKEN);
 			this.smsNotificationId = response.id;
 			Assert.IsNotNull(response);
 			Assert.AreEqual(response.content.body, TEST_SMS_BODY);
