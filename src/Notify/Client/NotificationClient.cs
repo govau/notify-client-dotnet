@@ -142,14 +142,14 @@ namespace Notify.Client
             {
                 o.Add(new JProperty("sms_sender_id", smsSenderId));
             }
-	    if (statusCallbackUrl != null)
-	    {
-		o.Add(new JProperty("status_callback_url", statusCallbackUrl));
-	    }
-	    if (statusCallbackBearerToken != null)
-	    {
-		o.Add(new JProperty("status_callback_bearer_token", statusCallbackBearerToken));
-	    }
+            if (statusCallbackUrl != null)
+            {
+                o.Add(new JProperty("status_callback_url", statusCallbackUrl));
+            }
+            if (statusCallbackBearerToken != null)
+            {
+                o.Add(new JProperty("status_callback_bearer_token", statusCallbackBearerToken));
+            }
 
             var response = await POST(SEND_SMS_NOTIFICATION_URL, o.ToString(Formatting.None)).ConfigureAwait(false);
 
@@ -168,14 +168,13 @@ namespace Notify.Client
                 o.Add(new JProperty("email_reply_to_id", emailReplyToId));
             }
             if (statusCallbackUrl != null)
-	    {
-	        o.Add(new JProperty("status_callback_url", statusCallbackUrl));
-	    }
-	    if (statusCallbackBearerToken != null)
-	    {
-		o.Add(new JProperty("status_callback_bearer_token", statusCallbackBearerToken));
-	    }
-
+            {
+                o.Add(new JProperty("status_callback_url", statusCallbackUrl));
+            }
+            if (statusCallbackBearerToken != null)
+            {
+                o.Add(new JProperty("status_callback_bearer_token", statusCallbackBearerToken));
+            }
 
             var response = await POST(SEND_EMAIL_NOTIFICATION_URL, o.ToString(Formatting.None)).ConfigureAwait(false);
 
