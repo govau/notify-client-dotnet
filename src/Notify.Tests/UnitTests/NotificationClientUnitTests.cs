@@ -250,7 +250,7 @@ namespace Notify.Tests.UnitTests
         {
             const string type = "sms";
             MockRequest(Constants.fakeTemplateSmsListResponseJson,
-                         client.GET_ALL_TEMPLATES_URL+ client.TYPE_PARAM + type, AssertValidRequest);
+                         client.GET_ALL_TEMPLATES_URL + client.TYPE_PARAM + type, AssertValidRequest);
 
             client.GetAllTemplates(type);
         }
@@ -261,7 +261,7 @@ namespace Notify.Tests.UnitTests
             const string type = "email";
 
             MockRequest(Constants.fakeTemplateEmailListResponseJson,
-                         client.GET_ALL_TEMPLATES_URL+ client.TYPE_PARAM + type, AssertValidRequest);
+                         client.GET_ALL_TEMPLATES_URL + client.TYPE_PARAM + type, AssertValidRequest);
 
             client.GetAllTemplates(type);
         }
@@ -271,7 +271,7 @@ namespace Notify.Tests.UnitTests
         {
             var expectedResponse = JsonConvert.DeserializeObject<TemplateList>(Constants.fakeTemplateEmptyListResponseJson);
 
-               MockRequest(Constants.fakeTemplateEmptyListResponseJson);
+            MockRequest(Constants.fakeTemplateEmptyListResponseJson);
 
             TemplateList templateList = client.GetAllTemplates();
 
@@ -473,7 +473,7 @@ namespace Notify.Tests.UnitTests
         public void PrepareUploadWithLargeDocumentGeneratesAnError()
         {
             Assert.That(
-                    () => { NotificationClient.PrepareUpload(new byte[3*1024*1024]); },
+                    () => { NotificationClient.PrepareUpload(new byte[3 * 1024 * 1024]); },
                     Throws.ArgumentException
                     );
         }
@@ -612,7 +612,7 @@ namespace Notify.Tests.UnitTests
             {
                 method = HttpMethod.Get;
             }
-                
+
             Assert.AreEqual(r.Method, method);
             Assert.AreEqual(r.RequestUri.ToString(), client.BaseUrl + uri);
             Assert.IsNotNull(r.Headers.Authorization);
@@ -624,7 +624,7 @@ namespace Notify.Tests.UnitTests
         private void MockRequest(string content, string uri,
                           Action<string, HttpRequestMessage, HttpMethod> _assertValidRequest = null,
                           HttpMethod method = null,
-                          Action<string, string> _assertGetExpectedContent = null, 
+                          Action<string, string> _assertGetExpectedContent = null,
                           string expected = null,
                           HttpStatusCode status = HttpStatusCode.OK)
         {
@@ -696,53 +696,8 @@ namespace Notify.Tests.UnitTests
             var expectedResponse = JsonConvert.DeserializeObject<EmailNotificationResponse>(Constants.fakeEmailNotificationResponseJson);
 
             MockRequest(Constants.fakeEmailNotificationResponseJson);
-            
+
             var actualResponse = client.SendEmail(Constants.fakeEmail, Constants.fakeTemplateId, personalisation, Constants.fakeNotificationReference, Constants.fakeReplyToId);
-
-            Assert.IsTrue(expectedResponse.Equals(actualResponse));
-        }
-
-        [Test, Category("Unit/NotificationClient")]
-        public void SendEmailNotificationWithStatusCallbackUrlGeneratesExpectedRequest()
-        {
-            var personalisation = new Dictionary<string, dynamic>
-            {
-                { "name", "someone" }
-            };
-
-            var expected = new JObject
-            {
-                { "email_address", Constants.fakeEmail },
-                { "template_id", Constants.fakeTemplateId },
-                { "personalisation", JObject.FromObject(personalisation) },
-                { "reference", Constants.fakeNotificationReference },
-                { "status_callback_url", Constants.fakeStatusCallbackUrl},
-                { "status_callback_bearer_token", Constants.fakeStatusCallbackBearerToken}
-            };
-
-            MockRequest(Constants.fakeTemplateEmailListResponseJson,
-                client.SEND_EMAIL_NOTIFICATION_URL,
-                AssertValidRequest,
-                HttpMethod.Post,
-                AssertGetExpectedContent,
-                expected.ToString(Formatting.None));
-
-            var response = client.SendEmail(Constants.fakeEmail, Constants.fakeTemplateId, personalisation: personalisation, clientReference: Constants.fakeNotificationReference, statusCallbackUrl: Constants.fakeStatusCallbackUrl, statusCallbackBearerToken: Constants.fakeStatusCallbackBearerToken);
-        }
-
-        [Test, Category("Unit/NotificationClient")]
-        public void SendEmailNotificationWithStatusCallbackUrlGeneratesExpectedResponse()
-        {
-            var personalisation = new Dictionary<string, dynamic>
-            {
-                { "name", "someone" }
-            };
-
-            var expectedResponse = JsonConvert.DeserializeObject<EmailNotificationResponse>(Constants.fakeEmailNotificationResponseJson);
-
-            MockRequest(Constants.fakeEmailNotificationResponseJson);
-
-            var actualResponse = client.SendEmail(Constants.fakeEmail, Constants.fakeTemplateId, personalisation, Constants.fakeNotificationReference, Constants.fakeStatusCallbackUrl, Constants.fakeStatusCallbackBearerToken);
 
             Assert.IsTrue(expectedResponse.Equals(actualResponse));
         }
@@ -770,32 +725,6 @@ namespace Notify.Tests.UnitTests
 
             var response = client.SendSms(
                 Constants.fakePhoneNumber, Constants.fakeTemplateId, personalisation: personalisation, smsSenderId: Constants.fakeSMSSenderId);
-        }
-
-        [Test, Category("Unit/NotificationClient")]
-        public void SendSmsNotificationWithStatusCallbackUrlGeneratesExpectedRequest()
-        {
-            var personalisation = new Dictionary<string, dynamic>
-                {
-                    { "name", "someone" }
-                };
-            var expected = new JObject
-            {
-                { "phone_number", Constants.fakePhoneNumber },
-                { "template_id", Constants.fakeTemplateId },
-                { "personalisation", JObject.FromObject(personalisation) },
-                { "status_callback_url", Constants.fakeStatusCallbackUrl },
-                { "status_callback_bearer_token", Constants.fakeStatusCallbackBearerToken}
-            };
-
-            MockRequest(Constants.fakeSmsNotificationWithSMSSenderIdResponseJson,
-                client.SEND_SMS_NOTIFICATION_URL,
-                AssertValidRequest,
-                HttpMethod.Post,
-                AssertGetExpectedContent, expected.ToString(Formatting.None));
-
-            var response = client.SendSms(
-                Constants.fakePhoneNumber, Constants.fakeTemplateId, personalisation: personalisation, statusCallbackUrl: Constants.fakeStatusCallbackUrl, statusCallbackBearerToken: Constants.fakeStatusCallbackBearerToken);
         }
     }
 }
