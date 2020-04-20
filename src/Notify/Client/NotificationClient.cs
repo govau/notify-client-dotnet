@@ -145,7 +145,7 @@ namespace Notify.Client
 
             var response = await POST(SEND_SMS_NOTIFICATION_URL, o.ToString(Formatting.None)).ConfigureAwait(false);
 
-            return JsonConvert.DeserializeObject<SmsNotificationResponse>(response);
+            return JsonConvert.DeserializeObject<SmsNotificationResponse>(response);            
         }
 
         public async Task<EmailNotificationResponse> SendEmailAsync(string emailAddress, string templateId,
@@ -172,7 +172,7 @@ namespace Notify.Client
 
             var response = await this.POST(SEND_LETTER_NOTIFICATION_URL, o.ToString(Formatting.None)).ConfigureAwait(false);
 
-            return JsonConvert.DeserializeObject<LetterNotificationResponse>(response);
+            return JsonConvert.DeserializeObject<LetterNotificationResponse>(response);            
         }
 
         public async Task<LetterNotificationResponse> SendPrecompiledLetterAsync(string clientReference, byte[] pdfContents, string postage = null)
@@ -233,8 +233,7 @@ namespace Notify.Client
 
         public static JObject PrepareUpload(byte[] documentContents)
         {
-            if (documentContents.Length > 2 * 1024 * 1024)
-            {
+            if (documentContents.Length > 2 * 1024 * 1024) {
                 throw new System.ArgumentException("Document is larger than 2MB");
             }
             return new JObject
