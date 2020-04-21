@@ -1,3 +1,9 @@
+## [2.6.0] - 2020-04-17
+
+* Added status callback parameters to `SendEmail` and `SendSms` calls.
+  `statusCallbackUrl`: an optional HTTPS URL for delivery status updates to be sent to. If you do not provide this and you have set up a delivery status callback URL on your service through Notify.gov.au, then that will be used.
+  `statusCallbackBearerToken`: The bearer token that will be used for authentication to the delivery status callback URL. This must be provided if `statusCallbackUrl` is provided.
+
 ## [2.5.2] - 2019-12-04
 
 * Applied fix for issue with synchronous version of NotificationClient API
