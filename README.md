@@ -1,6 +1,6 @@
-# GOV.AU Notify .NET client
+# Notify.gov.au .NET client
 
-Use this client to send emails, text messages and letters using the [GOV.AU Notify](https://notify.gov.au) API.
+Use this client to send emails and text messages using the Notify API.
 
 Useful links:
 
