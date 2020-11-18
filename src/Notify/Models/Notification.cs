@@ -37,6 +37,8 @@ namespace Notify.Models
         public string type;
         [JsonProperty("created_by_name")]
         public string createdByName;
+        [JsonProperty("created_by_email_address")]
+        public string createdByEmailAddress;
 
 
         public override bool Equals(object notification)
@@ -67,7 +69,8 @@ namespace Notify.Models
                 template.uri == note.template.uri &&
                 template.version == note.template.version &&
                 type == note.type &&
-                createdByName == note.createdByName;
+                createdByName == note.createdByName &&
+                createdByEmailAddress == note.createdByEmailAddress;
         }
 
         public override int GetHashCode()
