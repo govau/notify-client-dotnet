@@ -1,3 +1,9 @@
+## [2.7.0] - 2020-11-18
+
+* The Notification class has a new `createdByEmailAddress` property.
+    * If the notification was sent manually this will be the email address of the sender.
+    * If the notification was sent through the API this will be `null`.
+
 ## [2.6.0] - 2020-04-17
 
 * Added status callback parameters to `SendEmail` and `SendSms` calls.
