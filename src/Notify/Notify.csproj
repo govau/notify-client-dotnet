@@ -9,6 +9,8 @@
     <Description>Notify.gov.au .NET client</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>Netstandard release for net core 2.0, framework 4.6.2</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/govau/notify-client-dotnet</RepositoryUrl>
+    <PackageId>GovAU.Notify</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
