@@ -1,9 +1,8 @@
-NUGET  ?= nuget
 DOTNET ?= dotnet
 
 PACKAGES   = $(wildcard src/Notify/publish/*.nupkg)
 VERSIONS   = $(PACKAGES:src/Notify/publish/%.nupkg=%)
-NUGET_URL ?= https://api.bintray.com/nuget/notify-infra/nuget
+NUGET_URL ?= https://api.nuget.org/v3/index.json
 NUGET_KEY ?= # username:api_key
 
 .DEFAULT_GOAL := help
@@ -73,7 +72,7 @@ build-package: build-release ## Build and package NuGet
 publish: $(VERSIONS:%=publish-%) ## Publish Nuget packages
 
 $(VERSIONS:%=publish-%): publish-%: ## Publish Nuget package
-	@$(NUGET) push src/Notify/publish/$*.nupkg -Source $(NUGET_URL) -ApiKey $(NUGET_KEY)
+	@$(DOTNET) nuget push src/Notify/publish/$*.nupkg --source $(NUGET_URL) --api-key $(NUGET_KEY)
 
 .PHONY: clean
 clean: ## Remove temporary files
