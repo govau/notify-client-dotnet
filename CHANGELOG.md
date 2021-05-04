@@ -1,3 +1,7 @@
+## [2.7.1] - 2021-05-04
+
+* Use System.Net.Http from the GAC when the project is compiled as .net framework.
+
 ## [2.7.0] - 2020-11-18
 
 * The Notification class has a new `createdByEmailAddress` property.
