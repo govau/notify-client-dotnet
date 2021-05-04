@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <TargetFrameworks>netstandard2.0;netcoreapp2.0;net462</TargetFrameworks>
-    <Version>2.7.0</Version>
+    <Version>2.7.1</Version>
     <Authors>Notify.gov.au, GOV.UK Notify</Authors>
     <Owners>Notify.gov.au</Owners>
     <Description>Notify.gov.au .NET client</Description>
@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
-    <PackageReference Include="System.Net.Http" Version="4.3.3" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
 
 </Project>
