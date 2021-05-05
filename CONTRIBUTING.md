@@ -17,11 +17,11 @@ docker build -t fsnetcore .
 You can then run tests or anything else through docker as follows:
 
 ```
-docker run -v (pwd):/src -w /src --env-file .env -it fsnetcore [COMMAND]
+docker run -v $(pwd):/src -w /src --env-file .env -it fsnetcore [COMMAND]
 
-docker run -v (pwd):/src -w /src --env-file .env -it fsnetcore make build
-docker run -v (pwd):/src -w /src --env-file .env -it fsnetcore make build-test
-docker run -v (pwd):/src -w /src --env-file .env -it fsnetcore make build-package
+docker run -v $(pwd):/src -w /src --env-file .env -it fsnetcore make build
+docker run -v $(pwd):/src -w /src --env-file .env -it fsnetcore make build-test
+docker run -v $(pwd):/src -w /src --env-file .env -it fsnetcore make build-package
 ```
 
 ## Tests
